@@ -53,7 +53,7 @@ def prediction_to_message(prediction):
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    features = flask.request.json['features']
+    features = flask.request.json['ecg_data']
     prediction = model.predict([features])
     print("prediction is", prediction)
     response = {'prediction': prediction_to_message(prediction[0])}

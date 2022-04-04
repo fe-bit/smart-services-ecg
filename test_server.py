@@ -17,7 +17,7 @@ def get_rand_line():
 
 
 def make_request():
-    data = {"features": get_rand_line()}
+    data = {"ecg_data": get_rand_line()}
     r = requests.post('http://10.5.0.2:9099/predict',
                       json=data)
     print(r.status_code)
