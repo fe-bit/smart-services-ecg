@@ -4,28 +4,9 @@ from tensorflow import keras
 import numpy as np
 
 
-from flask_restplus import Api
-from documented_endpoints import namespace as hello_world_ns
-
-blueprint = flask.Blueprint('documented_api', __name__, url_prefix='/documented_api')
-
-api_extension = Api(
-    blueprint,
-    title='Flask RESTplus Demo',
-    version='1.0',
-    description='Application tutorial to demonstrate Flask RESTplus extension\
-        for better project structure and auto generated documentation',
-    doc='/doc'
-)
-api_extension.add_namespace(hello_world_ns)
-
-
 model = keras.models.load_model('ecg_hearbeat_cnn_model')
 
-
 app = flask.Flask(__name__)
-app.config['RESTPLUS_MASK_SWAGGER'] = False
-app.register_blueprint(blueprint)
 port = int(os.getenv("PORT", 9099))
 
 
@@ -51,13 +32,31 @@ def prediction_to_message(prediction):
         return "indefinite prediction"
 
 
+def is_valid_ecg_data(ecg_data):
+    def valid_length(data):
+        return len(data) == 187
+
+    def valid_entries(data):
+        try:
+            for entry in data:
+                float(entry)
+            return True
+        except:
+            return False
+
+    return valid_length(ecg_data) and valid_entries(ecg_data)
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     features = flask.request.json['ecg_data']
-    prediction = model.predict([features])
-    print("prediction is", prediction)
-    response = {'prediction': prediction_to_message(prediction[0])}
-    return flask.jsonify(response)
+    try:
+        prediction = model.predict([features])
+        print("prediction is", prediction)
+        response = {'prediction': prediction_to_message(prediction[0])}
+        return flask.jsonify(response)
+    except:
+        return flask.Response({'error': 'Invalid Input'}, status=400)
 
 # Categories
 # 0) N means "Normal beat"
