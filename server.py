@@ -4,7 +4,7 @@ from tensorflow import keras
 import numpy as np
 
 
-model = keras.models.load_model('ecg_hearbeat_cnn_model')
+model = keras.models.load_model('ecg_hearbeat_cnn_model.h5')
 
 app = flask.Flask(__name__)
 port = int(os.getenv("PORT", 9099))
@@ -74,3 +74,4 @@ def predict():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
+    
