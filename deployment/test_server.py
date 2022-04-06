@@ -2,7 +2,7 @@ import requests
 import random
 import json
 
-r = requests.post('https://httpbin.org/post', data={'key': 'value'})
+#r = requests.post('https://httpbin.org/post', data={'key': 'value'})
 with open(r".\input\mitbih_test.csv") as file:
     all = file.readlines()
 
@@ -18,7 +18,7 @@ def get_rand_line():
 
 def make_request():
     data = {"ecg_data": get_rand_line()}
-    r = requests.post('http://172.17.0.2:5000/predict',
+    r = requests.post('https://smart-services-ecg.herokuapp.com/predict',
                       json=data)
     print(r.status_code)
     print(r.json())
