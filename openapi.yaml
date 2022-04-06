@@ -39,7 +39,5 @@ paths:
                     enum: [Normal heartbeat, Supraventricular premature beat, Premature ventricular contraction, Fusion of ventricular and normal beat, Unclassifiable beat]
         '400':
           description: Bad request. Prediction data must be an array of numbers and with length 187.
-        '401':
-          description: Authorization information is missing or invalid.
         '5XX':
           description: Unexpected error.
