@@ -33,7 +33,7 @@ def get_index_for_message(message):
         return 5
 
 
-with open(r".\input\mitbih_test.csv") as file:
+with open("./input/mitbih_test.csv") as file:
     all = file.readlines()
 
 # print(all[0].split(","))
@@ -62,14 +62,17 @@ def get_accuracy(matrix, epochs):
 
 
 def accuracy_without_indefinite_normal_heartbeat(matrix, epochs):
+    '''ignores indefinite predictions when the expected result is Normal Heartbeat'''
     count_normal_indefinite = matrix[5, 0]
+    matrix[0,0] += count_normal_indefinite
+    matrix[5,0] = 0
     new_epochs = epochs - count_normal_indefinite
-    return get_accuracy(matrix, new_epochs)
+    return get_accuracy(matrix, epochs)
 
 
 if __name__ == "__main__":
     matrix = np.zeros((6, 6))
-    epochs = 10
+    epochs = 20
     for i in range(0, epochs):
         result, expected = make_request()
         matrix[result, expected] += 1
