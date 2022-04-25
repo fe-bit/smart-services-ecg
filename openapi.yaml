@@ -36,7 +36,7 @@ paths:
                 properties:
                   prediction:
                     type: string
-                    enum: [Normal heartbeat, Supraventricular premature beat, Premature ventricular contraction, Fusion of ventricular and normal beat, Unclassifiable beat]
+                    enum: [Normal heartbeat, Supraventricular premature beat, Premature ventricular contraction, Fusion of ventricular and normal beat, Unclassifiable beat, indefinite prediction]
         '400':
           description: Bad request. Prediction data must be an array of numbers and with length 187.
         '5XX':
